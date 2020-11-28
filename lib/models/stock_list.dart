@@ -20,6 +20,8 @@ class StockList extends StatefulWidget {
   }
 }
 
+
+
 class _StockListState extends State<StockList> {
   @override
   Widget build(BuildContext context) {
@@ -33,6 +35,8 @@ class _StockListState extends State<StockList> {
         return ListTile(
           //TODO:  use title, subtitle, and trailing to display the stock symbol
           // companyName and latestPrice
+          subtitle: Text('id: ${stocks[index].symbol ?? "symbol not found"}'),
+          trailing: Text('age: ${stocks[index].price ?? "price not found"}'),
           title: Text('Symbol: ${stocks[index].symbol}'),
         );
       },
