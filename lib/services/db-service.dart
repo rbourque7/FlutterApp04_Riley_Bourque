@@ -8,7 +8,7 @@
 import 'package:path/path.dart' as pathPackage;
 import 'package:sqflite/sqflite.dart' as sqflitePackage;
 
-import 'package:FlutterApp04_Riley_Bourque/models/stock.dart';
+import 'package:stock_watcher/models/stock.dart';
 
 class DatabaseHelper {
   sqflitePackage.Database db;
@@ -42,7 +42,7 @@ class DatabaseHelper {
   }
 
   Future<void> printAllDogsInDb() async {
-    List<Stock> listOfStocks = await this.getAllDogsFromDb();
+    List<Stock> listOfStocks = await this.getAllStocksFromDb();
     if (listOfStocks.length == 0) {
       print('No Dogs in the list');
     } else {
