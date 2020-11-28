@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
+
 import 'package:stock_watcher/models/stock_list.dart';
 import 'package:stock_watcher/models/stock.dart';
 import 'package:stock_watcher/services/stock_service.dart';
@@ -13,6 +14,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  DatabaseHelper databaseHelper = DatabaseHelper();
   var _stockList = List<Stock>();
   String _stockSymbol = "";
   StockService _stockService = StockService();
@@ -76,6 +78,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     //then dig out the symbol, companyName, and latestPrice,
                     //then rapped in a setState create a new object of
                     //type Stock and add it to _stockList
+                    await databaseHelper.insertStock(
+                      Stock(symbol: _stockList.length, name: _dogName, price: 5));
+                  _stockList = await databaseHelper.getAllDogsFromDb();
+                  databaseHelper.printAllDogsInDb();
+                  setState(() {});
                     var stockData = await _stockService.getQuote(_stockSymbol);
                     if (stockData == null) {
                       print("Call to getQuote failed to return stock data");
