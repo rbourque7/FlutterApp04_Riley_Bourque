@@ -16,13 +16,13 @@ class DatabaseHelper {
   Future<void> getOrCreateDatabaseHandle() async {
     var databasesPath = await sqflitePackage.getDatabasesPath();
     print('$databasesPath');
-    var path = pathPackage.join(databasesPath, 'stock_database.db');
+    var path = pathPackage.join(databasesPath, 'stocker_database.db');
     print('$path');
     db = await sqflitePackage.openDatabase(
       path,
       onCreate: (sqflitePackage.Database db1, int version) async {
         await db1.execute(
-          "CREATE TABLE stock(symbol TEXT PRIMARY KEY, name TEXT, price INTEGER)",
+          "CREATE TABLE stocks(symbol TEXT PRIMARY KEY, name TEXT, price DOUBLE)",
         );
       },
       version: 1,
@@ -31,8 +31,8 @@ class DatabaseHelper {
   }
 
   Future<void> insertStock(Stock stock) async {
-    // Insert the Dog into the correct table. Also specify the
-    // `conflictAlgorithm`. In this case, if the same dog is inserted
+    // Insert the Stock into the correct table. Also specify the
+    // `conflictAlgorithm`. In this case, if the same stock is inserted
     // multiple times, it replaces the previous data.
     await db.insert(
       'stocks',
@@ -53,10 +53,10 @@ class DatabaseHelper {
   }
 
   Future<List<Stock>> getAllStocksFromDb() async {
-    // Query the table for all The Dogs.
+    // Query the table for all The Stocks.
     //The .query will return a list with each item in the list being a map.
-    final List<Map<String, dynamic>> stockMap = await db.query('stocks');
-    // Convert the List<Map<String, dynamic> into a List<Dog>.
+    final List<Map<String, dynamic>> stockMap = await db.query('stock');
+    // Convert the List<Map<String, dynamic> into a List<Stock>.
     return List.generate(stockMap.length, (i) {
       return Stock(
         symbol: stockMap[i]['symbol'],
@@ -66,19 +66,19 @@ class DatabaseHelper {
     });
   }
 
-  Future<void> updateStock(Stock stock) async {
+  Future<void> updateDog(Stock stock) async {
     // Update the given Stock.
     await db.update(
       'stocks',
       stock.toMap(),
-      // Ensure that the Stock has a matching symbol.
+      // Ensure that the Stock has a matching id.
       where: "symbol = ?",
-      // Pass the Stocks's id as a whereArg to prevent SQL injection.
+      // Pass the Stock's id as a whereArg to prevent SQL injection.
       whereArgs: [stock.symbol],
     );
   }
 
-  Future<void> deleteStock(Stock stock) async {
+  Future<void> deleteDog(Stock stock) async {
     // Remove the Stock from the database.
     await db.delete(
       'stocks',
