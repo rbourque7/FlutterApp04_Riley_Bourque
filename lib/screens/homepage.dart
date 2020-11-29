@@ -23,6 +23,14 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   initState() {
     super.initState();
+    getOrCreateDbAndDisplayAllStocksInDb();
+  }
+
+  void getOrCreateDbAndDisplayAllStocksInDb() async {
+    await databaseHelper.getOrCreateDatabaseHandle();
+    _stockList = await databaseHelper.getAllStocksFromDb();
+    await databaseHelper.printAllStocksInDb();
+    setState(() {});
   }
 
   @override
@@ -79,6 +87,12 @@ class _MyHomePageState extends State<MyHomePage> {
                     //then dig out the symbol, companyName, and latestPrice,
                     //then rapped in a setState create a new object of
                     //type Stock and add it to _stockList
+
+                    await databaseHelper.insertStock(
+                      Stock(symbol: _stockList.length, name: _stockSymbol, price: 10)); //trying to figure out a variable to pull price from db
+                  _stockList = await databaseHelper.getAllStocksFromDb();
+                  databaseHelper.printAllStocksInDb();
+                  setState(() {});
                     
                     var stockData = await _stockService.getQuote(_stockSymbol);
                     if (stockData == null) {
