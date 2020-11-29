@@ -30,21 +30,21 @@ class DatabaseHelper {
     print('$db');
   }
 
-  Future<void> insertDog(Stock stock) async {
+  Future<void> insertStock(Stock stock) async {
     // Insert the Dog into the correct table. Also specify the
     // `conflictAlgorithm`. In this case, if the same dog is inserted
     // multiple times, it replaces the previous data.
     await db.insert(
-      'dogs',
+      'stocks',
       stock.toMap(),
       conflictAlgorithm: sqflitePackage.ConflictAlgorithm.replace,
     );
   }
 
-  Future<void> printAllDogsInDb() async {
+  Future<void> printAllStocksInDb() async {
     List<Stock> listOfStocks = await this.getAllStocksFromDb();
     if (listOfStocks.length == 0) {
-      print('No Dogs in the list');
+      print('No Stocks in the list');
     } else {
       listOfStocks.forEach((stock) {
         print('Stock{symbol: ${stock.symbol}, name: ${stock.name}, price: ${stock.price}');
@@ -74,7 +74,7 @@ class DatabaseHelper {
       // Ensure that the Stock has a matching symbol.
       where: "symbol = ?",
       // Pass the Stocks's id as a whereArg to prevent SQL injection.
-      whereArgs: [stock.id],
+      whereArgs: [stock.symbol],
     );
   }
 
@@ -85,7 +85,7 @@ class DatabaseHelper {
       // Use a `where` clause to delete a specific stock.
       where: "symbol = ?",
       // Pass the Stocks's id as a whereArg to prevent SQL injection.
-      whereArgs: [stock.id],
+      whereArgs: [stock.symbol],
     );
   }
 }

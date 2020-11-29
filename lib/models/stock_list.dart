@@ -36,7 +36,7 @@ class _StockListState extends State<StockList> {
           //TODO:  use title, subtitle, and trailing to display the stock symbol
           // companyName and latestPrice
           subtitle: Text('id: ${stocks[index].symbol ?? "symbol not found"}'),
-          trailing: Text('age: ${stocks[index].price ?? "price not found"}'),
+          trailing: Text('price: ${stocks[index].price ?? "price not found"}'),
           title: Text('Symbol: ${stocks[index].symbol}'),
         );
       },
