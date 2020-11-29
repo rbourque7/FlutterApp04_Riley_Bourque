@@ -66,7 +66,7 @@ class DatabaseHelper {
     });
   }
 
-  Future<void> updateDog(Stock stock) async {
+  Future<void> updateStock(Stock stock) async {
     // Update the given Stock.
     await db.update(
       'stocks',
@@ -78,7 +78,7 @@ class DatabaseHelper {
     );
   }
 
-  Future<void> deleteDog(Stock stock) async {
+  Future<void> deleteStock(Stock stock) async {
     // Remove the Stock from the database.
     await db.delete(
       'stocks',
